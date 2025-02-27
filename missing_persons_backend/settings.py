@@ -43,9 +43,8 @@ INSTALLED_APPS = [
 
     # Custom apps
     'users',
-    'family_members',
     'reports',
-    'matches',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -86,12 +85,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
-        'USER': 'postgres.clxxtikxcdjbosddoooa',
+        'USER': 'postgres.bznjligsfqwtwsocdqbu',
         'PASSWORD': '123456Aa',
         'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
         'PORT': 6543,
     }
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }
 
 
 # Password validation
