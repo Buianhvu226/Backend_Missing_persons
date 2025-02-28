@@ -31,7 +31,7 @@ class DiscoveryReport(models.Model):
     created_at = models.DateTimeField(default=now)
 
     def __str__(self):
-        return f"{self.missing_id} - {self.found_time}"
+        return f"{self.discovery_id} - {self.found_time}"
     
 class Matching_Result(models.Model):
     matching_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

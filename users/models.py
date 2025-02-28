@@ -8,6 +8,10 @@ class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone = models.CharField(max_length=15, unique=True)
     email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['phone']
 
     groups = models.ManyToManyField(
         'auth.Group',
@@ -26,9 +30,25 @@ class User(AbstractUser):
         related_query_name="user",
     )
 
+    # def __str__(self):
+    #     return str(self.user_id)
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = str(self.user_id)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.email
+
 class Profile(models.Model):
     profile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.OneToOneField(User, to_field='user_id', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+        User, 
+        to_field='user_id',
+        related_name='profiles',
+        on_delete=models.CASCADE
+    )
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     is_user = models.BooleanField(default=False)
@@ -45,8 +65,13 @@ class Profile(models.Model):
     created_at = models.DateTimeField(default=now)
     last_active = models.DateTimeField(null=True, blank=True)
 
+
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    # def __str__(self):
+    #     return str(self.profile_id)
     
 class Relationship(models.Model):
     relationship_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
