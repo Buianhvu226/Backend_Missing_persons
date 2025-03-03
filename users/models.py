@@ -6,8 +6,8 @@ from .enums import *
 
 class User(AbstractUser):
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    phone = models.CharField(max_length=15, unique=True)
     email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=15, unique=True, null=False)  # Remove null=True
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
@@ -65,13 +65,28 @@ class Profile(models.Model):
     created_at = models.DateTimeField(default=now)
     last_active = models.DateTimeField(null=True, blank=True)
 
-
-
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
     # def __str__(self):
     #     return str(self.profile_id)
+
+class UnknowProfile(models.Model):
+    unknown_profile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    city = models.CharField(max_length=50, blank=True)
+    district = models.CharField(max_length=50, blank=True)
+    ward = models.CharField(max_length=50, blank=True)
+    street_address = models.CharField(max_length=255, blank=True)
+    name_of_family_members = models.JSONField(null=True, blank=True)
+    
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+    
+
     
 class Relationship(models.Model):
     relationship_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
