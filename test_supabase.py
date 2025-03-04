@@ -14,7 +14,11 @@ def test_upload_image():
     try:
         # Path to image file
         # C:\Finding lost member\Backend-Missing_persons\test_image.jpg
-        image_path = "C:/Finding lost member/Backend-Missing_persons/OIP.jfif"
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Image should be in the same directory as the script
+        image_path = os.path.join(current_dir, "dog.jpg")
+        
+        print(f"Attempting to upload from: {image_path}")
         
         # Upload file to 'faces' bucket
         with open(image_path, 'rb') as f:
